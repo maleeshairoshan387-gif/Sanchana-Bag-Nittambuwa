@@ -1,0 +1,881 @@
+```html
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanchana Bag Nittambuwa | Wholesale Order Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Noto Sans Sinhala -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans Sinhala', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom smooth scrolling & scrollbar styling */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Hide number input spin buttons */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        /* Drawer transition */
+        .drawer-backdrop {
+            transition: opacity 0.3s ease;
+        }
+        .drawer-panel {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased pb-24">
+
+    <!-- ===================================================================== -->
+    <!-- TOP HEADER / NAVBAR                                                   -->
+    <!-- ===================================================================== -->
+    <header class="sticky top-0 z-30 bg-slate-900 text-white shadow-lg border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3">
+            <!-- Brand Info -->
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-slate-900 shadow-md shrink-0">
+                    <!-- Bag Icon SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                        <path d="M3 6h18"/>
+                        <path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white leading-tight">
+                        Sanchana Bag <span class="text-amber-400">Nittambuwa</span>
+                    </h1>
+                    <p class="text-xs text-slate-300 font-medium">
+                        Islandwide Wholesale Delivery • දිවයින පුරා තොග බෙදාහැරීම
+                    </p>
+                </div>
+            </div>
+
+            <!-- Direct Contact & Quick Order Button -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <a href="tel:+94763637110" class="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                    <span>076 363 7110</span>
+                </a>
+
+                <button onclick="toggleCart(true)" class="relative inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-md transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
+                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                    </svg>
+                    <span class="hidden sm:inline">Order List</span>
+                    <span id="headerCartBadge" class="bg-white text-emerald-800 text-xs font-extrabold px-2 py-0.5 rounded-full">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===================================================================== -->
+    <!-- HERO / QUICK INSTRUCTIONS BANNER                                      -->
+    <!-- ===================================================================== -->
+    <section class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="inline-block bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs font-semibold px-3 py-1 rounded-full mb-2">
+                        B2B Wholesale Catalog • තොග මිල ලැයිස්තුව
+                    </span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-white">
+                        ඔබේ වෙළඳසැලට අවශ්‍ය බෑග් තොග ඇණවුම් කරන්න
+                    </h2>
+                    <p class="text-slate-300 text-sm mt-1 max-w-2xl">
+                        පහත ඇති මාදිලි වලින් ඔබට අවශ්‍ය ප්‍රමාණය (Qty) තෝරා <strong class="text-white">"Add to Order"</strong> ඔබන්න. අවසානයේ <strong class="text-emerald-400">WhatsApp</strong> හරහා ඇණවුම අප වෙත එවන්න.
+                    </p>
+                </div>
+                <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-3.5 text-xs text-slate-300 shrink-0">
+                    <div class="font-bold text-white mb-1 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Sanchana Bag - Nittambuwa
+                    </div>
+                    <div>Hotline / WhatsApp: <strong class="text-amber-400">076 363 7110</strong></div>
+                    <div class="mt-0.5 text-slate-400">Fast Islandwide Courier & Van Delivery</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SEARCH & CATEGORY FILTER BAR                                          -->
+    <!-- ===================================================================== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+            <!-- Search Input -->
+            <div class="relative flex-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                </svg>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    oninput="filterProducts()" 
+                    placeholder="බෑග් මාදිලිය සොයන්න (උදා: Biaowang, Nike, Tote, Bucket)..." 
+                    class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-600 focus:bg-white transition"
+                >
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0" id="categoryButtons">
+                <button onclick="setCategory('all')" data-cat="all" class="cat-btn active px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-slate-900 text-white shadow-sm transition">
+                    All Models (10)
+                </button>
+                <button onclick="setCategory('backpack')" data-cat="backpack" class="cat-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                    Backpacks (5)
+                </button>
+                <button onclick="setCategory('handbag')" data-cat="handbag" class="cat-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                    Ladies Handbags (5)
+                </button>
+            </div>
+        </div>
+
+        <!-- ===================================================================== -->
+        <!-- PRODUCT CATALOG GRID                                                  -->
+        <!-- ===================================================================== -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-6">
+            <!-- Product cards will be dynamically rendered here by JS -->
+        </div>
+
+        <!-- Empty Search State -->
+        <div id="emptyState" class="hidden text-center py-16 bg-white rounded-2xl border border-slate-200 mt-6">
+            <p class="text-slate-500 font-medium">ඔබ සෙවූ නමින් බෑග් මාදිලියක් හමු නොවීය.</p>
+            <button onclick="resetFilters()" class="mt-3 text-sm font-semibold text-brand-600 hover:underline">සියලුම බෑග් පෙන්වන්න (Reset)</button>
+        </div>
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- STICKY BOTTOM ORDER SUMMARY BAR (MOBILE & DESKTOP)                    -->
+    <!-- ===================================================================== -->
+    <div id="floatingBottomBar" class="fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] transition-transform duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 sm:gap-6">
+                <div>
+                    <span class="text-xs text-slate-500 block">Selected Items (මුළු බෑග්)</span>
+                    <span id="bottomTotalQty" class="text-base sm:text-lg font-extrabold text-slate-900">0 pcs</span>
+                </div>
+                <div class="h-8 w-px bg-slate-200"></div>
+                <div>
+                    <span class="text-xs text-slate-500 block">Estimated Total (මුළු මුදල)</span>
+                    <span id="bottomTotalPrice" class="text-base sm:text-lg font-extrabold text-emerald-700">Rs. 0</span>
+                </div>
+            </div>
+
+            <button onclick="toggleCart(true)" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold text-sm sm:text-base px-5 py-3 rounded-xl shadow-lg shadow-emerald-600/20 transition">
+                <span>Review & Send Order</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- SLIDE-OVER ORDER CART & CHECKOUT DRAWER                               -->
+    <!-- ===================================================================== -->
+    <div id="cartDrawer" class="fixed inset-0 z-50 hidden">
+        <!-- Backdrop -->
+        <div id="cartBackdrop" onclick="toggleCart(false)" class="drawer-backdrop fixed inset-0 bg-slate-900/60 backdrop-blur-xs opacity-0"></div>
+        
+        <!-- Panel -->
+        <div id="cartPanel" class="drawer-panel fixed inset-y-0 right-0 max-w-lg w-full bg-white shadow-2xl flex flex-col translate-x-full">
+            <!-- Drawer Header -->
+            <div class="px-5 py-4 bg-slate-900 text-white flex items-center justify-between shrink-0">
+                <div>
+                    <h3 class="text-lg font-bold">Wholesale Order Summary</h3>
+                    <p class="text-xs text-slate-300">Sanchana Bag Nittambuwa • 076 363 7110</p>
+                </div>
+                <button onclick="toggleCart(false)" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Scrollable Drawer Body -->
+            <div class="flex-1 overflow-y-auto p-5 space-y-6">
+                <!-- Selected Items List -->
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="text-sm font-bold text-slate-800 uppercase tracking-wider">තෝරාගත් බෑග් (Selected Items)</h4>
+                        <button onclick="clearCart()" id="clearCartBtn" class="text-xs font-semibold text-rose-600 hover:underline hidden">Clear All</button>
+                    </div>
+                    
+                    <div id="cartItemsContainer" class="space-y-3">
+                        <!-- Cart items injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Totals Box -->
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2">
+                    <div class="flex justify-between text-sm text-slate-600">
+                        <span>Total Pieces (මුළු බෑග් ගණන):</span>
+                        <span id="drawerTotalQty" class="font-bold text-slate-900">0 pcs</span>
+                    </div>
+                    <div class="flex justify-between text-base font-extrabold text-slate-900 pt-2 border-t border-slate-200">
+                        <span>Total Wholesale Value:</span>
+                        <span id="drawerTotalPrice" class="text-emerald-700">Rs. 0</span>
+                    </div>
+                </div>
+
+                <!-- Retail Shop Details Form -->
+                <div class="space-y-3.5 pt-2 border-t border-slate-200">
+                    <h4 class="text-sm font-bold text-slate-800 uppercase tracking-wider">
+                        ඔබේ වෙළඳසැලේ විස්තර (Shop Details)
+                    </h4>
+                    
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Shop Name / කඩේ නම <span class="text-rose-500">*</span></label>
+                        <input type="text" id="shopName" placeholder="උදා: Perera Bag Center" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Town / City (නගරය) <span class="text-rose-500">*</span></label>
+                            <input type="text" id="shopCity" placeholder="උදා: Kurunegala" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Contact Number (දුරකථන) <span class="text-rose-500">*</span></label>
+                            <input type="tel" id="shopPhone" placeholder="07X XXX XXXX" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Owner Name / Special Note (වෙනත් විස්තර)</label>
+                        <input type="text" id="shopNote" placeholder="උදා: කමල් - සඳුදා ඩිලිවරි එකට එවන්න" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Drawer Footer Actions -->
+            <div class="p-4 bg-slate-50 border-t border-slate-200 space-y-2.5 shrink-0">
+                <button onclick="sendWhatsAppOrder()" class="w-full flex items-center justify-center gap-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-emerald-600/20 transition">
+                    <!-- WhatsApp SVG Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+                    </svg>
+                    <span>Send Order via WhatsApp (076 363 7110)</span>
+                </button>
+
+                <button onclick="copyOrderSummary()" class="w-full flex items-center justify-center gap-2 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-semibold py-2.5 px-4 rounded-xl text-sm transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                    </svg>
+                    <span>Copy Order Summary</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- CUSTOM TOAST NOTIFICATION (Replaces alert())                          -->
+    <!-- ===================================================================== -->
+    <div id="toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-all duration-300 transform -translate-y-2">
+        <div id="toastInner" class="bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl text-sm font-semibold flex items-center gap-2.5 border border-slate-700">
+            <span id="toastIcon">✅</span>
+            <span id="toastMessage">Notification</span>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- APPLICATION LOGIC & PRODUCT CATALOG DATA                              -->
+    <!-- ===================================================================== -->
+    <script>
+        /**
+         * ====================================================================
+         * HOW TO USE YOUR ACTUAL BAG PHOTOS:
+         * Put this HTML file in the same folder as your bag images 
+         * (e.g., 1000132910.png, 1000132909.png, etc.).
+         * The `imageFile` property below automatically loads your local file 
+         * first, and falls back to a clean custom visual illustration if the 
+         * image file isn't found in the folder!
+         * ====================================================================
+         */
+        const SHOP_WHATSAPP = "94763637110"; // 076 363 7110
+
+        const products = [
+            {
+                id: "biaowang-raincot",
+                name: "BIAOWANG RAINCOT",
+                category: "backpack",
+                price: 1800,
+                dimensions: '18" H × 13" W',
+                colorTag: "Navy Blue • Yellow Stripes",
+                description: "Water-resistant raincover backpack with spacious compartments.",
+                imageFile: "1000132910.png",
+                bgGradient: "from-blue-900 to-indigo-950",
+                accentColor: "#facc15",
+                bagType: "backpack"
+            },
+            {
+                id: "tryangle",
+                name: "TRYANGLE",
+                category: "backpack",
+                price: 1890,
+                dimensions: '17" H × 13" W',
+                colorTag: "Ash Grey • Red Accent",
+                description: "Modern structured backpack with diagonal front zipper pocket.",
+                imageFile: "1000132909.png",
+                bgGradient: "from-slate-600 to-slate-800",
+                accentColor: "#ef4444",
+                bagType: "backpack"
+            },
+            {
+                id: "colombia-plate",
+                name: "COLOMBIA PLATE (60L)",
+                category: "backpack",
+                price: 3750,
+                dimensions: '23" H × 14" W',
+                colorTag: "Black • Neon Green",
+                description: "Heavy-duty 60L adventure & hiking travel backpack.",
+                imageFile: "1000132907.jpg",
+                bgGradient: "from-zinc-900 to-neutral-950",
+                accentColor: "#a3e635",
+                bagType: "hiking"
+            },
+            {
+                id: "nike-carf",
+                name: "NIKE CARF (With Pouch)",
+                category: "backpack",
+                price: 1200,
+                dimensions: '16" H × 12" W',
+                colorTag: "Classic Black",
+                description: "Everyday school & casual backpack with detachable pencil pouch.",
+                imageFile: "1000132900.png",
+                bgGradient: "from-neutral-800 to-stone-950",
+                accentColor: "#ffffff",
+                bagType: "backpack"
+            },
+            {
+                id: "biaowang-small",
+                name: "BIAOWANG SMALL",
+                category: "backpack",
+                price: 1200,
+                dimensions: '20" L × 12" W',
+                colorTag: "Jet Black",
+                description: "Lightweight compact daily backpack with durable zippers.",
+                imageFile: "1000132882.png",
+                bgGradient: "from-gray-800 to-gray-950",
+                accentColor: "#f43f5e",
+                bagType: "backpack"
+            },
+            {
+                id: "elegant-valencia",
+                name: "ELEGANT (Valencia Luxe)",
+                category: "handbag",
+                price: 1000,
+                dimensions: "Standard Ladies",
+                colorTag: "Dusty Pink • Pom-Pom",
+                description: "Structured ladies handbag with fluffy pom-pom keychain.",
+                imageFile: "1000132078.png",
+                bgGradient: "from-rose-300 to-rose-400",
+                accentColor: "#ffe4e6",
+                bagType: "handbag"
+            },
+            {
+                id: "tote-bag-2line",
+                name: "TOTE BAG 2 LINE",
+                category: "handbag",
+                price: 1200,
+                dimensions: "Spacious Tote",
+                colorTag: "Tan & Dark Brown",
+                description: "Two-tone stylish office & daily use ladies tote bag.",
+                imageFile: "1000132063.png",
+                bgGradient: "from-amber-600 to-amber-900",
+                accentColor: "#fef3c7",
+                bagType: "tote"
+            },
+            {
+                id: "x-clip",
+                name: "X CLIP",
+                category: "handbag",
+                price: 1300,
+                dimensions: "Medium Handbag",
+                colorTag: "Cream Woven • Gold Clip",
+                description: "Textured cream woven handbag with gold X-clip strap hardware.",
+                imageFile: "1000132062.png",
+                bgGradient: "from-stone-200 to-amber-100",
+                accentColor: "#ca8a04",
+                bagType: "handbag"
+            },
+            {
+                id: "gws-gentle-woman",
+                name: "G.W.S (Gentle Woman)",
+                category: "handbag",
+                price: 880,
+                dimensions: "Daily Tote",
+                colorTag: "Maroon / Burgundy",
+                description: "Floral embroidered Gentle Woman edition daily tote bag.",
+                imageFile: "1000131734.jpg",
+                bgGradient: "from-pink-900 to-rose-950",
+                accentColor: "#f9a8d4",
+                bagType: "tote"
+            },
+            {
+                id: "l-bucket",
+                name: "L BUCKET",
+                category: "handbag",
+                price: 830,
+                dimensions: "Bucket Style",
+                colorTag: "Burgundy • Gold Chain",
+                description: "Drawstring bucket handbag with side gold chain accent.",
+                imageFile: "1000131736.jpg",
+                bgGradient: "from-red-900 to-stone-900",
+                accentColor: "#fcd34d",
+                bagType: "handbag"
+            }
+        ];
+
+        // State
+        let currentCategory = "all";
+        let cart = {}; // { productId: quantity }
+
+        // Load saved cart from localStorage if available
+        try {
+            const savedCart = localStorage.getItem("sanchana_bag_cart");
+            if (savedCart) cart = JSON.parse(savedCart);
+        } catch (e) {
+            console.warn("Storage unavailable");
+        }
+
+        // Generate clean SVG vector illustration fallback if local image is missing
+        function getFallbackSVG(product) {
+            if (product.category === "backpack") {
+                return `
+                <svg viewBox="0 0 120 120" class="w-24 h-24 drop-shadow-md">
+                    <rect x="30" y="25" width="60" height="75" rx="16" fill="rgba(255,255,255,0.15)" stroke="white" stroke-width="3"/>
+                    <path d="M45 25 C45 12, 75 12, 75 25" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+                    <rect x="38" y="55" width="44" height="32" rx="8" fill="rgba(0,0,0,0.25)" stroke="${product.accentColor}" stroke-width="2.5"/>
+                    <line x1="38" y1="66" x2="82" y2="66" stroke="${product.accentColor}" stroke-width="2"/>
+                </svg>`;
+            } else {
+                return `
+                <svg viewBox="0 0 120 120" class="w-24 h-24 drop-shadow-md">
+                    <path d="M42 42 C42 18, 78 18, 78 42" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M26 42 L94 42 L88 94 C87 99, 83 102, 78 102 L42 102 C37 102, 33 99, 32 94 Z" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="3"/>
+                    <circle cx="60" cy="68" r="6" fill="${product.accentColor}"/>
+                </svg>`;
+            }
+        }
+
+        // Render Product Grid
+        function renderProducts() {
+            const grid = document.getElementById("productGrid");
+            const emptyState = document.getElementById("emptyState");
+            const query = document.getElementById("searchInput").value.toLowerCase().trim();
+
+            const filtered = products.filter(p => {
+                const matchesCat = currentCategory === "all" || p.category === currentCategory;
+                const matchesQuery = p.name.toLowerCase().includes(query) || 
+                                     p.colorTag.toLowerCase().includes(query) ||
+                                     p.dimensions.toLowerCase().includes(query);
+                return matchesCat && matchesQuery;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = "";
+                emptyState.classList.remove("hidden");
+                return;
+            }
+
+            emptyState.classList.add("hidden");
+
+            grid.innerHTML = filtered.map(product => {
+                const inCartQty = cart[product.id] || 0;
+                const defaultInputVal = inCartQty > 0 ? inCartQty : 1;
+
+                return `
+                <div class="bg-white rounded-2xl border ${inCartQty > 0 ? 'border-emerald-500 ring-2 ring-emerald-500/20' : 'border-slate-200/90'} shadow-sm hover:shadow-md transition-all flex flex-col overflow-hidden">
+                    <!-- Image / Visual Header -->
+                    <div class="relative h-56 bg-gradient-to-br ${product.bgGradient} flex items-center justify-center overflow-hidden group">
+                        <!-- Actual Image (with automatic SVG fallback if file isn't in folder) -->
+                        <img 
+                            src="${product.imageFile}" 
+                            alt="${product.name}" 
+                            class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                        >
+                        <!-- Styled Fallback Visual -->
+                        <div class="hidden flex-col items-center justify-center p-4 text-center">
+                            ${getFallbackSVG(product)}
+                            <span class="mt-2 text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-black/30 text-white backdrop-blur-xs">
+                                ${product.colorTag}
+                            </span>
+                        </div>
+
+                        <!-- Price Badge -->
+                        <div class="absolute top-3 right-3 bg-rose-600 text-white font-extrabold text-sm px-3 py-1 rounded-xl shadow-md">
+                            Rs. ${product.price.toLocaleString()}
+                        </div>
+
+                        <!-- Dimension Pill -->
+                        <div class="absolute bottom-3 left-3 bg-slate-900/85 backdrop-blur-xs text-amber-300 text-xs font-bold px-2.5 py-1 rounded-lg border border-white/10">
+                            📏 ${product.dimensions}
+                        </div>
+
+                        ${inCartQty > 0 ? `
+                        <div class="absolute top-3 left-3 bg-emerald-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow">
+                            ✓ ${inCartQty} in Order
+                        </div>` : ''}
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="p-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                                ${product.category === 'backpack' ? 'Backpack' : 'Ladies Handbag'}
+                            </div>
+                            <h3 class="text-base font-extrabold text-slate-900 mt-0.5 leading-snug">
+                                ${product.name}
+                            </h3>
+                            <p class="text-xs text-slate-500 mt-1 line-clamp-2">
+                                ${product.description}
+                            </p>
+                        </div>
+
+                        <!-- Quantity Stepper & Add Button -->
+                        <div class="mt-4 pt-3 border-t border-slate-100">
+                            <div class="flex items-center justify-between gap-2">
+                                <!-- Stepper -->
+                                <div class="flex items-center border border-slate-300 rounded-xl bg-slate-50 overflow-hidden">
+                                    <button type="button" onclick="adjustCardInput('${product.id}', -1)" class="w-9 h-9 flex items-center justify-center text-slate-700 hover:bg-slate-200 font-bold text-lg transition">−</button>
+                                    <input 
+                                        type="number" 
+                                        id="qty-input-${product.id}" 
+                                        value="${defaultInputVal}" 
+                                        min="1" 
+                                        max="999"
+                                        class="w-11 h-9 text-center text-sm font-bold text-slate-900 bg-white border-x border-slate-200 focus:outline-none"
+                                    >
+                                    <button type="button" onclick="adjustCardInput('${product.id}', 1)" class="w-9 h-9 flex items-center justify-center text-slate-700 hover:bg-slate-200 font-bold text-lg transition">+</button>
+                                </div>
+
+                                <!-- Add / Update Button -->
+                                <button 
+                                    type="button" 
+                                    onclick="addToCart('${product.id}')" 
+                                    class="flex-1 h-9 px-3 rounded-xl font-bold text-xs sm:text-sm text-white ${inCartQty > 0 ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-slate-900 hover:bg-slate-800'} transition flex items-center justify-center gap-1.5 shadow-xs"
+                                >
+                                    <span>${inCartQty > 0 ? 'Update Qty' : '+ Add'}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join("");
+        }
+
+        // Category Filter
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll(".cat-btn").forEach(btn => {
+                if (btn.dataset.cat === cat) {
+                    btn.className = "cat-btn active px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-slate-900 text-white shadow-sm transition";
+                } else {
+                    btn.className = "cat-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
+                }
+            });
+            renderProducts();
+        }
+
+        function filterProducts() {
+            renderProducts();
+        }
+
+        function resetFilters() {
+            document.getElementById("searchInput").value = "";
+            setCategory("all");
+        }
+
+        // Adjust Card Quantity Input before adding
+        function adjustCardInput(productId, delta) {
+            const input = document.getElementById(`qty-input-${productId}`);
+            let val = parseInt(input.value) || 1;
+            val = Math.max(1, val + delta);
+            input.value = val;
+        }
+
+        // Add or Update Item in Cart
+        function addToCart(productId) {
+            const input = document.getElementById(`qty-input-${productId}`);
+            const qty = parseInt(input.value);
+            
+            if (!qty || qty <= 0) {
+                showToast("කරුණාකර නිවැරදි ප්‍රමාණයක් ඇතුළත් කරන්න", "⚠️");
+                return;
+            }
+
+            const product = products.find(p => p.id === productId);
+            cart[productId] = qty;
+            saveCart();
+            updateTotalsUI();
+            renderProducts();
+            showToast(`${product.name} (${qty} pcs) ඇණවුමට එක් කළා`, "✅");
+        }
+
+        // Update Quantity directly inside Drawer
+        function updateCartItemQty(productId, delta) {
+            if (!cart[productId]) return;
+            const newQty = cart[productId] + delta;
+            if (newQty <= 0) {
+                delete cart[productId];
+            } else {
+                cart[productId] = newQty;
+            }
+            saveCart();
+            updateTotalsUI();
+            renderCartDrawerItems();
+            renderProducts();
+        }
+
+        function removeCartItem(productId) {
+            delete cart[productId];
+            saveCart();
+            updateTotalsUI();
+            renderCartDrawerItems();
+            renderProducts();
+        }
+
+        function clearCart() {
+            cart = {};
+            saveCart();
+            updateTotalsUI();
+            renderCartDrawerItems();
+            renderProducts();
+            showToast("Order list එක හිස් කළා", "🗑️");
+        }
+
+        function saveCart() {
+            try {
+                localStorage.setItem("sanchana_bag_cart", JSON.stringify(cart));
+            } catch (e) {}
+        }
+
+        // Calculate Totals & Update Badges
+        function getCartSummary() {
+            let totalPieces = 0;
+            let totalAmount = 0;
+            const items = [];
+
+            for (const [id, qty] of Object.entries(cart)) {
+                const product = products.find(p => p.id === id);
+                if (product && qty > 0) {
+                    const subtotal = product.price * qty;
+                    totalPieces += qty;
+                    totalAmount += subtotal;
+                    items.push({ ...product, qty, subtotal });
+                }
+            }
+            return { items, totalPieces, totalAmount };
+        }
+
+        function updateTotalsUI() {
+            const { totalPieces, totalAmount } = getCartSummary();
+            
+            document.getElementById("headerCartBadge").textContent = totalPieces;
+            document.getElementById("bottomTotalQty").textContent = `${totalPieces} pcs`;
+            document.getElementById("bottomTotalPrice").textContent = `Rs. ${totalAmount.toLocaleString()}`;
+            
+            document.getElementById("drawerTotalQty").textContent = `${totalPieces} pcs`;
+            document.getElementById("drawerTotalPrice").textContent = `Rs. ${totalAmount.toLocaleString()}`;
+
+            const clearBtn = document.getElementById("clearCartBtn");
+            if (totalPieces > 0) {
+                clearBtn.classList.remove("hidden");
+            } else {
+                clearBtn.classList.add("hidden");
+            }
+        }
+
+        // Render Items inside Slide-over Drawer
+        function renderCartDrawerItems() {
+            const container = document.getElementById("cartItemsContainer");
+            const { items } = getCartSummary();
+
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 px-4 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
+                        <p class="text-sm font-semibold text-slate-600">තවම කිසිදු බෑග් එකක් තෝරාගෙන නොමැත.</p>
+                        <p class="text-xs text-slate-400 mt-1">ලැයිස්තුවෙන් ඔබට අවශ්‍ය බෑග් තෝරා "+ Add" ඔබන්න.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = items.map(item => `
+                <div class="flex items-center justify-between gap-3 p-3 bg-white border border-slate-200 rounded-xl shadow-2xs">
+                    <div class="min-w-0 flex-1">
+                        <h5 class="text-sm font-bold text-slate-900 truncate">${item.name}</h5>
+                        <div class="text-xs text-slate-500">
+                            Rs. ${item.price.toLocaleString()} × ${item.qty} = <strong class="text-slate-800">Rs. ${item.subtotal.toLocaleString()}</strong>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button onclick="updateCartItemQty('${item.id}', -1)" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold text-slate-700">−</button>
+                        <span class="w-7 text-center text-xs font-extrabold">${item.qty}</span>
+                        <button onclick="updateCartItemQty('${item.id}', 1)" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold text-slate-700">+</button>
+                        <button onclick="removeCartItem('${item.id}')" class="ml-1 p-1.5 text-rose-500 hover:bg-rose-50 rounded-lg" title="Remove">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                        </button>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        // Toggle Slide-over Cart Drawer
+        function toggleCart(open) {
+            const drawer = document.getElementById("cartDrawer");
+            const backdrop = document.getElementById("cartBackdrop");
+            const panel = document.getElementById("cartPanel");
+
+            if (open) {
+                renderCartDrawerItems();
+                updateTotalsUI();
+                drawer.classList.remove("hidden");
+                // Trigger reflow for smooth CSS transition
+                void drawer.offsetWidth;
+                backdrop.classList.remove("opacity-0");
+                panel.classList.remove("translate-x-full");
+            } else {
+                backdrop.classList.add("opacity-0");
+                panel.classList.add("translate-x-full");
+                setTimeout(() => {
+                    drawer.classList.add("hidden");
+                }, 300);
+            }
+        }
+
+        // Format Wholesale Order Message
+        function buildOrderMessage() {
+            const { items, totalPieces, totalAmount } = getCartSummary();
+            if (items.length === 0) {
+                showToast("කරුණාකර පළමුව බෑග් තෝරන්න!", "⚠️");
+                return null;
+            }
+
+            const shopName = document.getElementById("shopName").value.trim();
+            const shopCity = document.getElementById("shopCity").value.trim();
+            const shopPhone = document.getElementById("shopPhone").value.trim();
+            const shopNote = document.getElementById("shopNote").value.trim();
+
+            if (!shopName || !shopCity || !shopPhone) {
+                showToast("කඩේ නම, නගරය සහ දුරකථන අංකය ඇතුළත් කරන්න!", "⚠️");
+                return null;
+            }
+
+            let lines = [
+                `*NEW WHOLESALE ORDER* 🎒`,
+                `*To: Sanchana Bag - Nittambuwa*`,
+                `--------------------------------`,
+                `🏪 *Shop:* ${shopName}`,
+                `📍 *City:* ${shopCity}`,
+                `📞 *Phone:* ${shopPhone}`,
+            ];
+
+            if (shopNote) {
+                lines.push(`📝 *Note:* ${shopNote}`);
+            }
+
+            lines.push(`--------------------------------`);
+            lines.push(`*ORDER ITEMS:*`);
+
+            items.forEach((item, index) => {
+                lines.push(`${index + 1}. *${item.name}*`);
+                lines.push(`   ${item.qty} pcs × Rs. ${item.price.toLocaleString()} = Rs. ${item.subtotal.toLocaleString()}`);
+            });
+
+            lines.push(`--------------------------------`);
+            lines.push(`📦 *Total Bags:* ${totalPieces} pcs`);
+            lines.push(`💰 *Total Amount:* Rs. ${totalAmount.toLocaleString()}`);
+            lines.push(`--------------------------------`);
+            lines.push(`_Sent via Sanchana Bag Order Portal_`);
+
+            return lines.join("\n");
+        }
+
+        // Send Order directly to WhatsApp (076 363 7110)
+        function sendWhatsAppOrder() {
+            const message = buildOrderMessage();
+            if (!message) return;
+
+            const encodedText = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${SHOP_WHATSAPP}?text=${encodedText}`;
+            window.open(whatsappUrl, "_blank");
+        }
+
+        // Copy Order Summary to Clipboard
+        function copyOrderSummary() {
+            const message = buildOrderMessage();
+            if (!message) return;
+
+            const tempTextarea = document.createElement("textarea");
+            tempTextarea.value = message;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempTextarea);
+
+            showToast("Order විස්තරය Copy විය! දැන් WhatsApp හෝ SMS හරහා යවන්න.", "📋");
+        }
+
+        // Custom Toast Notification Helper
+        let toastTimeout;
+        function showToast(msg, icon = "✅") {
+            const toast = document.getElementById("toast");
+            document.getElementById("toastMessage").textContent = msg;
+            document.getElementById("toastIcon").textContent = icon;
+
+            toast.classList.remove("opacity-0", "-translate-y-2");
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add("opacity-0", "-translate-y-2");
+            }, 3000);
+        }
+
+        // Initialize App on Load
+        window.addEventListener("DOMContentLoaded", () => {
+            renderProducts();
+            updateTotalsUI();
+        });
+    </script>
+</body>
+</html>
+```
